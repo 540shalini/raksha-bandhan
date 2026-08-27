@@ -23,10 +23,10 @@ import { Sparkles, BookOpen, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export function App() {
-  const [recipientName, setRecipientName] = useState('Brother');
-  const [senderName, setSenderName] = useState('Elder Sister');
+  const [recipientName, setRecipientName] = useState('Brijesh');
+  const [senderName, setSenderName] = useState('Madhuri');
   const [customMessage, setCustomMessage] = useState(
-    `Dearest Brother, through every season of life, your love and presence have been my strongest anchor. Distance may separate our paths, but the sacred thread of Rakhi keeps our souls forever intertwined. Thank you for being my protector, my confidant, and my greatest blessing.`
+    `Dearest Brijesh, thank you for everything. Through every season of life, your love and presence have been my strongest anchor. Distance may separate our paths, but the sacred thread of Rakhi keeps our souls forever intertwined. Thank you Brijesh for everything. Lots of love from your sister Madhuri.`
   );
 
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);

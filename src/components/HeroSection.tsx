@@ -83,8 +83,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <span>A Note From Your Elder Sister</span>
         </div>
 
-        <p className="font-serif italic text-lg sm:text-xl text-[#2C221E] leading-relaxed mt-2 font-medium">
-          "Thank you for being the absolute best brother in the whole world. Your elder sister is so immensely proud to walk beside you, watch you grow, and share every chapter of life with you."
+        <div className="mt-4 p-4 rounded-2xl bg-gradient-to-r from-[#9E2A2B]/10 via-[#D4AF37]/20 to-[#E07A5F]/10 border border-[#D4AF37]">
+          <p className="text-xl sm:text-2xl font-serif font-extrabold text-[#9E2A2B] tracking-wide">
+            Thank you {recipientName} for everything. Lots of love from your sister {senderName}
+          </p>
+        </div>
+
+        <p className="font-serif italic text-base sm:text-lg text-[#2C221E] leading-relaxed mt-4 font-medium">
+          "Thank you for being the absolute best brother in the whole world. Your sister is so immensely proud to walk beside you, watch you grow, and share every chapter of life with you."
         </p>
 
         <div className="w-16 h-0.5 bg-gradient-to-r from-[#9E2A2B] via-[#D4AF37] to-[#E07A5F] mx-auto mt-4 rounded-full" />
