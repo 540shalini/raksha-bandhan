@@ -3,18 +3,35 @@
 @layer base {
   :root {
     --bg-cream: #FAF7F2;
+    --card-bg: rgba(255, 255, 255, 0.8);
     --marigold: #E07A5F;
     --marigold-gold: #F4A261;
     --crimson: #9E2A2B;
     --gold: #D4AF37;
     --gold-light: #F3E5AB;
-    --charcoal: #2C221E;
+    --text-primary: #2C221E;
+    --text-secondary: rgba(44, 34, 30, 0.75);
+    --border-color: rgba(212, 175, 55, 0.25);
+  }
+
+  .dark {
+    --bg-cream: #0F0C1B;
+    --card-bg: rgba(26, 20, 42, 0.85);
+    --marigold: #F4A261;
+    --marigold-gold: #FFB703;
+    --crimson: #E63946;
+    --gold: #FFD700;
+    --gold-light: #FFF8DC;
+    --text-primary: #F4F1DE;
+    --text-secondary: rgba(244, 241, 222, 0.75);
+    --border-color: rgba(255, 215, 0, 0.35);
   }
 
   body {
     font-family: 'Inter', sans-serif;
-    background-color: #FAF7F2;
-    color: #2C221E;
+    background-color: var(--bg-cream);
+    color: var(--text-primary);
+    transition: background-color 0.6s ease, color 0.6s ease;
   }
 
   h1, h2, h3, .font-serif-heading {
@@ -30,20 +47,31 @@
   }
 }
 
-/* Glassmorphism & Custom Effects */
+/* Glassmorphism & Custom Cards */
 .glass-card {
-  background: rgba(255, 255, 255, 0.75);
+  background: var(--card-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 55, 0.25);
-  box-shadow: 0 20px 40px -15px rgba(158, 42, 43, 0.07);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.1);
 }
 
-.glass-card-dark {
-  background: rgba(44, 34, 30, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+/* 3D Flip Card System */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
 }
 
 /* Pulsing & Glowing Animation */
@@ -70,8 +98,8 @@
   }
   50% {
     opacity: 1;
-    transform: scale(1.15) translateY(-2px);
-    filter: drop-shadow(0 -8px 20px rgba(239, 68, 68, 0.9));
+    transform: scale(1.18) translateY(-2px);
+    filter: drop-shadow(0 -8px 22px rgba(239, 68, 68, 0.95));
   }
 }
 
@@ -95,17 +123,49 @@
   }
 }
 
+/* Blur to Sharp Focus Reveal */
+@keyframes blurReveal {
+  from {
+    filter: blur(12px);
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    filter: blur(0);
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-blur-reveal {
+  animation: blurReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Cassette Reel Rotation */
+@keyframes spinReel {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-reel {
+  animation: spinReel 3s linear infinite;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #FAF7F2;
+  background: var(--bg-cream);
 }
 ::-webkit-scrollbar-thumb {
-  background: #E07A5F;
+  background: var(--marigold);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #9E2A2B;
+  background: var(--crimson);
 }

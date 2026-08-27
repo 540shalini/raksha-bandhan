@@ -1,37 +1,30 @@
 import React, { useState } from 'react';
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import { Sparkles, ChevronDown, Heart } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Sparkles, Heart } from 'lucide-react';
 import { soundManager } from '../utils/audio';
 
 interface HeroSectionProps {
   recipientName: string;
   senderName: string;
+  onOpenCustomizer?: () => void;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ recipientName, senderName }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  // 3D Parallax Tilt Effect
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [15, -15]), { stiffness: 200, damping: 25 });
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-15, 15]), { stiffness: 200, damping: 25 });
+export const HeroSection: React.FC<HeroSectionProps> = ({
+  recipientName,
+  senderName,
+  onOpenCustomizer,
+}) => {
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const x = (e.clientX - rect.left) / width - 0.5;
-    const y = (e.clientY - rect.top) / height - 0.5;
-    mouseX.set(x);
-    mouseY.set(y);
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    setRotate({ x: -y / 15, y: x / 15 });
   };
 
   const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-    setIsHovered(false);
+    setRotate({ x: 0, y: 0 });
   };
 
   const handleRakhiClick = () => {
@@ -39,183 +32,104 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ recipientName, senderN
   };
 
   return (
-    <section id="hero" className="relative min-h-screen pt-28 pb-16 flex flex-col items-center justify-center overflow-hidden px-4 text-center">
-      {/* Background Soft Radial Glowing Orbs */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] bg-radial from-[#F4A261]/25 via-[#E07A5F]/15 to-transparent rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 left-1/3 w-[250px] h-[250px] bg-radial from-[#D4AF37]/20 to-transparent rounded-full blur-2xl pointer-events-none" />
+    <section
+      id="hero"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative min-h-screen pt-28 pb-16 px-4 sm:px-8 flex flex-col justify-center items-center text-center overflow-hidden"
+    >
+      {/* Background Radial Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-radial from-[#D4AF37]/20 via-[#E07A5F]/10 to-transparent blur-3xl pointer-events-none rounded-full" />
 
-      {/* Top Festival Tag */}
+      {/* Top Festive Subtitle Pill */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#9E2A2B]/10 border border-[#D4AF37]/40 text-[#9E2A2B] text-xs sm:text-sm font-cinzel font-semibold tracking-widest uppercase mb-6 shadow-sm"
+        className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#FAF7F2] border border-[#D4AF37]/40 shadow-sm text-xs font-cinzel font-semibold text-[#9E2A2B] tracking-widest uppercase mb-6"
       >
-        <Sparkles className="w-3.5 h-3.5 text-[#D4AF37] animate-spin" style={{ animationDuration: '8s' }} />
-        <span>Sacred Thread of Eternal Bond</span>
-        <Sparkles className="w-3.5 h-3.5 text-[#D4AF37] animate-spin" style={{ animationDuration: '8s' }} />
+        <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+        <span>Celebration of Sacred Thread</span>
       </motion.div>
 
-      {/* Central 3D Ornate Sacred Rakhi */}
-      <motion.div
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={handleMouseLeave}
-        onClick={handleRakhiClick}
-        style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-        className="relative my-4 cursor-pointer group"
-      >
-        {/* Breathing Outer Aura Ring */}
-        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#D4AF37]/30 via-[#E07A5F]/40 to-[#9E2A2B]/30 blur-2xl group-hover:scale-125 transition-transform duration-700 animate-breathing" />
-
-        {/* Vector SVG Rakhi Artwork */}
-        <div className="relative w-64 h-64 sm:w-80 sm:h-80 flex items-center justify-center select-none">
-          {/* Thread Extensions Left & Right */}
-          <div className="absolute left-[-60px] sm:left-[-100px] w-28 sm:w-36 h-2 bg-gradient-to-r from-transparent via-[#9E2A2B] to-[#D4AF37] rounded-full shadow-lg opacity-80" />
-          <div className="absolute right-[-60px] sm:right-[-100px] w-28 sm:w-36 h-2 bg-gradient-to-l from-transparent via-[#9E2A2B] to-[#D4AF37] rounded-full shadow-lg opacity-80" />
-
-          {/* Golden Thread Tassels */}
-          <div className="absolute left-[-90px] sm:left-[ -130px] flex space-x-1">
-            <div className="w-2 h-10 bg-gradient-to-b from-[#D4AF37] to-[#E07A5F] rounded-full transform -rotate-12 blur-[0.3px]" />
-            <div className="w-1.5 h-12 bg-gradient-to-b from-[#9E2A2B] to-[#D4AF37] rounded-full transform rotate-6" />
-          </div>
-          <div className="absolute right-[-90px] sm:right-[-130px] flex space-x-1">
-            <div className="w-1.5 h-12 bg-gradient-to-b from-[#9E2A2B] to-[#D4AF37] rounded-full transform -rotate-6" />
-            <div className="w-2 h-10 bg-gradient-to-b from-[#D4AF37] to-[#E07A5F] rounded-full transform rotate-12 blur-[0.3px]" />
-          </div>
-
-          <svg className="w-full h-full drop-shadow-2xl" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="goldGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#FFF9D2" />
-                <stop offset="40%" stopColor="#F59E0B" />
-                <stop offset="80%" stopColor="#B45309" />
-                <stop offset="100%" stopColor="#78350F" />
-              </radialGradient>
-              <linearGradient id="marigoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#F4A261" />
-                <stop offset="50%" stopColor="#E07A5F" />
-                <stop offset="100%" stopColor="#9E2A2B" />
-              </linearGradient>
-              <linearGradient id="silkCrimson" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#DC2626" />
-                <stop offset="100%" stopColor="#7F1D1D" />
-              </linearGradient>
-            </defs>
-
-            {/* Outer Sacred Floral Mandala Petals */}
-            {[...Array(12)].map((_, i) => (
-              <g key={i} transform={`rotate(${i * 30} 100 100)`}>
-                <path
-                  d="M100 25 C108 40 108 55 100 70 C92 55 92 40 100 25 Z"
-                  fill="url(#marigoldGrad)"
-                  stroke="#F3E5AB"
-                  strokeWidth="0.8"
-                  className="transition-opacity duration-300 group-hover:opacity-100"
-                />
-                <circle cx="100" cy="24" r="3" fill="#D4AF37" />
-              </g>
-            ))}
-
-            {/* Inner Pearl / Diamond Ring */}
-            <circle cx="100" cy="100" r="50" fill="none" stroke="#D4AF37" strokeWidth="2.5" strokeDasharray="4 2" />
-            
-            {[...Array(8)].map((_, i) => (
-              <g key={`bead-${i}`} transform={`rotate(${i * 45} 100 100)`}>
-                <circle cx="100" cy="48" r="4.5" fill="url(#goldGlow)" stroke="#78350F" strokeWidth="0.5" />
-              </g>
-            ))}
-
-            {/* Central Crimson Velvet Base */}
-            <circle cx="100" cy="100" r="38" fill="url(#silkCrimson)" stroke="#D4AF37" strokeWidth="2" />
-
-            {/* Central Ornate Golden Swirl / Om & Lotus Motif */}
-            <circle cx="100" cy="100" r="28" fill="url(#marigoldGrad)" opacity="0.9" />
-            <circle cx="100" cy="100" r="18" fill="url(#goldGlow)" />
-            
-            {/* Center Gem Ruby */}
-            <circle cx="100" cy="100" r="8" fill="#9E2A2B" stroke="#FFF" strokeWidth="1" />
-            <circle cx="98" cy="98" r="2.5" fill="#FFF" opacity="0.8" />
-          </svg>
-
-          {/* Hover Hint */}
-          {isHovered && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="absolute -bottom-6 px-3 py-1 bg-[#2C221E]/90 text-[#F3E5AB] text-[11px] font-sans rounded-full shadow-lg border border-[#D4AF37]/40 pointer-events-none"
-            >
-              ✨ Click to receive divine blessing
-            </motion.div>
-          )}
-        </div>
-      </motion.div>
-
-      {/* Main Headline */}
+      {/* Main Title */}
       <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-        className="text-4xl sm:text-6xl md:text-7xl font-serif font-extrabold tracking-tight text-[#2C221E] max-w-4xl leading-[1.15]"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.2 }}
+        className="text-4xl sm:text-6xl md:text-7xl font-serif font-bold tracking-tight text-[#2C221E] max-w-4xl leading-tight"
       >
         Happy <span className="gold-gradient-text">Raksha Bandhan</span>
-        {recipientName && (
-          <span className="block text-3xl sm:text-5xl font-handwritten text-[#9E2A2B] mt-2 font-normal">
-            Dearest {recipientName} ❤️
-          </span>
-        )}
       </motion.h1>
 
-      {/* Subheading */}
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.5 }}
-        className="mt-6 text-base sm:text-xl text-[#2C221E]/80 max-w-2xl font-light leading-relaxed px-4"
+        transition={{ duration: 0.8, delay: 0.4 }}
+        className="mt-4 text-lg sm:text-xl text-[#2C221E]/80 max-w-2xl font-light"
       >
-        Celebrating the sacred thread of unconditional love, lifelong protection, and the cherished memories we share.
-        {senderName && (
-          <span className="block mt-2 font-medium text-[#E07A5F]">
-            With endless affection from {senderName}
-          </span>
-        )}
+        For <strong className="text-[#9E2A2B] font-semibold">{recipientName}</strong>, bound by love, protection, and eternal memories from <strong className="text-[#9E2A2B] font-semibold">{senderName}</strong>.
       </motion.p>
+
+      {/* 3D Breathing Vector Rakhi Mandala Art */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.2, delay: 0.6 }}
+        style={{
+          transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
+          transition: 'transform 0.1s ease-out',
+        }}
+        onClick={handleRakhiClick}
+        className="mt-12 relative w-72 h-72 sm:w-96 sm:h-96 flex items-center justify-center cursor-pointer group"
+      >
+        {/* Outer Thread Ring Lines */}
+        <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#D4AF37]/50 animate-spin" style={{ animationDuration: '30s' }} />
+
+        {/* Breathing Rakhi Art Container */}
+        <div className="w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-gradient-to-tr from-[#9E2A2B] via-[#E07A5F] to-[#D4AF37] p-2 shadow-2xl animate-breathing flex items-center justify-center relative">
+          
+          {/* Inner Golden Mandala */}
+          <div className="w-full h-full rounded-full bg-[#FAF7F2] border-4 border-[#D4AF37] flex items-center justify-center p-6 relative overflow-hidden">
+            {/* SVG Ornate Petals */}
+            <svg viewBox="0 0 100 100" className="w-full h-full text-[#9E2A2B] fill-current opacity-90">
+              <path d="M50 0 C55 25 75 45 100 50 C75 55 55 75 50 100 C45 75 25 55 0 50 C25 45 45 25 50 0 Z" />
+              <circle cx="50" cy="50" r="22" className="fill-[#D4AF37]" />
+              <circle cx="50" cy="50" r="14" className="fill-[#9E2A2B]" />
+              <circle cx="50" cy="50" r="6" className="fill-[#FAF7F2]" />
+            </svg>
+          </div>
+
+          {/* Golden Thread Extensions Left & Right */}
+          <div className="absolute top-1/2 -left-20 right-auto -translate-y-1/2 w-20 h-1 bg-gradient-to-r from-transparent via-[#D4AF37] to-[#9E2A2B] rounded-full hidden sm:block" />
+          <div className="absolute top-1/2 -right-20 left-auto -translate-y-1/2 w-20 h-1 bg-gradient-to-l from-transparent via-[#D4AF37] to-[#9E2A2B] rounded-full hidden sm:block" />
+        </div>
+      </motion.div>
 
       {/* Action Buttons */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.7 }}
-        className="mt-8 flex flex-wrap items-center justify-center gap-4"
+        transition={{ duration: 0.8, delay: 0.8 }}
+        className="mt-12 flex flex-wrap items-center justify-center gap-4"
       >
         <a
           href="#ritual"
-          className="px-7 py-3.5 rounded-full bg-gradient-to-r from-[#9E2A2B] via-[#E07A5F] to-[#D4AF37] text-white font-medium text-sm sm:text-base shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center space-x-2 group"
+          className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#9E2A2B] via-[#E07A5F] to-[#D4AF37] text-white font-medium text-sm shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center space-x-2"
         >
-          <span>Tie the Rakhi Ritual</span>
-          <Heart className="w-4 h-4 fill-white group-hover:scale-125 transition-transform" />
+          <span>Tie Sacred Rakhi</span>
+          <Sparkles className="w-4 h-4" />
         </a>
-        <a
-          href="#wishes"
-          className="px-7 py-3.5 rounded-full bg-[#FAF7F2] border border-[#D4AF37]/60 text-[#9E2A2B] font-medium text-sm sm:text-base hover:bg-[#D4AF37]/10 transition-all duration-300 shadow-sm"
-        >
-          Read Heartfelt Wish
-        </a>
-      </motion.div>
 
-      {/* Smooth Scroll Down Indicator */}
-      <motion.div
-        animate={{ y: [0, 8, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-        className="mt-16 sm:mt-20 flex flex-col items-center cursor-pointer opacity-75 hover:opacity-100 transition-opacity"
-      >
-        <a href="#bond" className="flex flex-col items-center text-xs font-cinzel tracking-widest text-[#9E2A2B]">
-          <span>Begin Mindful Journey</span>
-          <ChevronDown className="w-5 h-5 text-[#E07A5F] mt-1" />
-        </a>
+        {onOpenCustomizer && (
+          <button
+            onClick={onOpenCustomizer}
+            className="px-6 py-3.5 rounded-full bg-[#FAF7F2] border border-[#D4AF37]/50 text-[#2C221E] font-medium text-sm hover:border-[#9E2A2B] transition-all duration-300 flex items-center space-x-2 shadow-sm"
+          >
+            <Heart className="w-4 h-4 text-[#9E2A2B]" />
+            <span>Customize Names</span>
+          </button>
+        )}
       </motion.div>
     </section>
   );
