@@ -18,6 +18,7 @@ import { ReasonsFlipCards } from './components/ReasonsFlipCards';
 import { TraceThreadUnlock } from './components/TraceThreadUnlock';
 import { DayNightToggle } from './components/DayNightToggle';
 import { KnowMoreStoryModal } from './components/KnowMoreStoryModal';
+import { RakhiTreasureHunt } from './components/RakhiTreasureHunt';
 import { Sparkles, BookOpen, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -103,6 +104,9 @@ export function App() {
 
         {/* Mindful Reflection & Poem */}
         <MindfulReflection recipientName={recipientName} />
+
+        {/* Interactive Rakhi Treasure Hunt Game */}
+        <RakhiTreasureHunt recipientName={recipientName} senderName={senderName} />
 
         {/* Phase 2: "Our Journey" Interactive Scroll-Driven Timeline */}
         <JourneyTimeline recipientName={recipientName} senderName={senderName} />

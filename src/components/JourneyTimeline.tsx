@@ -4,7 +4,8 @@ import { Sparkles, Compass } from 'lucide-react';
 import { soundManager } from '../utils/audio';
 
 interface TimelineEvent {
-  year: string;
+  id: string;
+  chapter: string;
   title: string;
   description: string;
   tag: string;
@@ -31,35 +32,40 @@ export const JourneyTimeline: React.FC<JourneyTimelineProps> = ({
 
   const events: TimelineEvent[] = [
     {
-      year: '2010',
+      id: '1',
+      chapter: 'Chapter I',
       title: 'The Great Vase Incident',
-      description: 'The year we accidentally broke Mom’s favorite vase while playing indoor cricket, and vowed never to tell a soul.',
+      description: 'Accidentally breaking Mom’s favorite vase while playing indoor cricket, and making a pact never to tell a soul.',
       tag: 'Childhood Shenanigans',
       imageUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80',
     },
     {
-      year: '2014',
+      id: '2',
+      chapter: 'Chapter II',
       title: 'Midnight Snack Heists',
       description: 'Creeping down to the kitchen at 1 AM to steal ice cream and chocolate syrup without waking the household.',
       tag: 'Partners in Crime',
       imageUrl: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80',
     },
     {
-      year: '2018',
+      id: '3',
+      chapter: 'Chapter III',
       title: 'First Big Road Trip',
-      description: 'Blasting 90s songs in the car, getting lost on purpose, and realizing how lucky we are to have each other.',
+      description: 'Blasting favorite songs in the car, getting lost on purpose, and realizing how lucky we are to have each other.',
       tag: 'Lifelong Memories',
       imageUrl: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=600&q=80',
     },
     {
-      year: '2022',
+      id: '4',
+      chapter: 'Chapter IV',
       title: 'The Silent Shelter',
       description: 'When life got chaotic, sitting quietly together without needing words was all the reassurance I needed.',
       tag: 'Unconditional Shield',
       imageUrl: 'https://images.unsplash.com/photo-1629837901594-52c6f140fb08?auto=format&fit=crop&w=600&q=80',
     },
     {
-      year: '2026',
+      id: '5',
+      chapter: 'Chapter V',
       title: 'Forever Intertwined',
       description: `Today and always, no matter where life leads us, ${recipientName || 'you'} will always have a special place in my heart.`,
       tag: 'Sacred Bond',
@@ -82,10 +88,10 @@ export const JourneyTimeline: React.FC<JourneyTimelineProps> = ({
             <span>Chronicles of Us</span>
           </span>
           <h2 className="text-3xl sm:text-5xl font-serif font-bold text-[#2C221E] mt-2">
-            Our Journey Through Time
+            Our Journey Together
           </h2>
           <p className="mt-3 text-base text-[#2C221E]/75 max-w-xl mx-auto font-light">
-            Scroll down to trace the golden thread connecting our fondest childhood milestones.
+            Scroll down to trace the golden thread connecting our fondest milestone memories.
           </p>
           <div className="w-16 h-0.5 bg-gradient-to-r from-[#9E2A2B] via-[#D4AF37] to-[#E07A5F] my-4 mx-auto rounded-full" />
         </motion.div>
@@ -123,7 +129,7 @@ export const JourneyTimeline: React.FC<JourneyTimelineProps> = ({
 
               return (
                 <div
-                  key={event.year}
+                  key={event.id}
                   className={`relative flex flex-col md:flex-row items-center ${
                     isEven ? 'md:flex-row-reverse' : ''
                   }`}
@@ -139,8 +145,8 @@ export const JourneyTimeline: React.FC<JourneyTimelineProps> = ({
                     className="w-full md:w-1/2 p-6 sm:p-8 glass-card rounded-3xl border border-[#D4AF37]/40 shadow-xl cursor-pointer text-left relative group overflow-hidden"
                   >
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-2xl font-serif font-extrabold text-[#9E2A2B] group-hover:scale-105 transition-transform">
-                        {event.year}
+                      <span className="text-xl font-serif font-extrabold text-[#9E2A2B] group-hover:scale-105 transition-transform">
+                        {event.chapter}
                       </span>
                       <span className="px-3 py-1 rounded-full bg-[#9E2A2B]/10 text-[#9E2A2B] text-[11px] font-cinzel font-semibold">
                         {event.tag}
