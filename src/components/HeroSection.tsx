@@ -52,48 +52,48 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <span>Celebration of Sacred Sibling Bond</span>
       </motion.div>
 
-      {/* Main Title */}
+      {/* Main Title with Brother's Name */}
       <motion.h1
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, delay: 0.2 }}
         className="text-4xl sm:text-6xl md:text-7xl font-serif font-bold tracking-tight text-[#2C221E] max-w-4xl leading-tight"
       >
-        Happy <span className="gold-gradient-text">Raksha Bandhan</span>
+        Happy <span className="gold-gradient-text">Raksha Bandhan</span>, {recipientName}!
       </motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        className="mt-4 text-lg sm:text-xl text-[#2C221E]/80 max-w-2xl font-light"
+        transition={{ duration: 0.8, delay: 0.3 }}
+        className="mt-3 text-lg sm:text-xl text-[#2C221E]/80 max-w-2xl font-light"
       >
-        For <strong className="text-[#9E2A2B] font-semibold">{recipientName}</strong>, bound by love, protection, and eternal memories from your <strong className="text-[#9E2A2B] font-semibold">{senderName}</strong>.
+        For <strong className="text-[#9E2A2B] font-semibold">{recipientName}</strong>, bound by love, protection, and eternal memories from your sister <strong className="text-[#9E2A2B] font-semibold">{senderName}</strong>.
       </motion.p>
 
-      {/* Heartfelt Emotional Message Card at the Start */}
+      {/* Perfectly Placed Heartfelt Emotional Message Banner */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 0.5 }}
-        className="mt-8 max-w-2xl w-full p-6 sm:p-8 bg-gradient-to-br from-white/90 via-[#FAF7F2] to-[#FFFBEB] rounded-3xl border-2 border-[#D4AF37]/50 shadow-2xl relative text-center overflow-hidden"
+        transition={{ duration: 0.9, delay: 0.4 }}
+        className="mt-8 max-w-2xl w-full p-6 sm:p-8 bg-gradient-to-br from-white/95 via-[#FAF7F2] to-[#FFFBEB] rounded-3xl border-2 border-[#D4AF37]/60 shadow-2xl relative text-center overflow-hidden mx-auto"
       >
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#9E2A2B] to-[#D4AF37] text-white text-[11px] font-cinzel font-bold tracking-wider uppercase shadow-md flex items-center space-x-1">
-          <Heart className="w-3 h-3 fill-current text-white" />
-          <span>A Note From Your Elder Sister</span>
+        <div className="inline-flex items-center space-x-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#9E2A2B] to-[#D4AF37] text-white text-[11px] font-cinzel font-bold tracking-wider uppercase shadow-md mb-4">
+          <Heart className="w-3.5 h-3.5 fill-current text-white" />
+          <span>A Special Note From Sister {senderName}</span>
         </div>
 
-        <div className="mt-4 p-4 rounded-2xl bg-gradient-to-r from-[#9E2A2B]/10 via-[#D4AF37]/20 to-[#E07A5F]/10 border border-[#D4AF37]">
-          <p className="text-xl sm:text-2xl font-serif font-extrabold text-[#9E2A2B] tracking-wide">
-            Thank you {recipientName} for everything. Lots of love from your sister {senderName}
+        <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#9E2A2B]/10 via-[#D4AF37]/20 to-[#E07A5F]/10 border border-[#D4AF37]/40 shadow-inner">
+          <p className="text-xl sm:text-2xl font-serif font-extrabold text-[#9E2A2B] tracking-wide leading-snug">
+            Thank you {recipientName} for everything. Lots of love from your sister {senderName}!
           </p>
         </div>
 
-        <p className="font-serif italic text-base sm:text-lg text-[#2C221E] leading-relaxed mt-4 font-medium">
-          "Thank you for being the absolute best brother in the whole world. Your sister is so immensely proud to walk beside you, watch you grow, and share every chapter of life with you."
+        <p className="font-serif italic text-base sm:text-lg text-[#2C221E]/90 leading-relaxed mt-4 font-medium">
+          "Thank you for being the absolute best brother in the whole world. I am so immensely proud to walk beside you, watch you grow, and share every chapter of life with you."
         </p>
 
-        <div className="w-16 h-0.5 bg-gradient-to-r from-[#9E2A2B] via-[#D4AF37] to-[#E07A5F] mx-auto mt-4 rounded-full" />
+        <div className="w-20 h-0.5 bg-gradient-to-r from-[#9E2A2B] via-[#D4AF37] to-[#E07A5F] mx-auto mt-4 rounded-full" />
       </motion.div>
 
       {/* 3D Breathing Vector Rakhi Mandala Art */}
