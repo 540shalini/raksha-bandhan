@@ -190,6 +190,9 @@ export function App() {
       <AdminModal
         isOpen={isAdminOpen}
         onClose={() => setIsAdminOpen(false)}
+        recipientName={recipientName}
+        senderName={senderName}
+        onSaveNames={handleSaveCustomization}
         onMemoryAdded={handleMemoryAdded}
       />
 

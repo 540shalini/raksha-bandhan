@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lock, User, Upload, Image, Trash2, Key, CheckCircle, AlertCircle, X, Plus, ShieldCheck } from 'lucide-react';
+import { Lock, User, Upload, Image, Trash2, Key, CheckCircle, AlertCircle, X, Plus, ShieldCheck, Heart, Save } from 'lucide-react';
 import { soundManager } from '../utils/audio';
 
 export interface AdminMemory {
@@ -14,12 +14,18 @@ export interface AdminMemory {
 interface AdminModalProps {
   isOpen: boolean;
   onClose: () => void;
+  recipientName: string;
+  senderName: string;
+  onSaveNames: (recipient: string, sender: string) => void;
   onMemoryAdded: (memory: AdminMemory) => void;
 }
 
 export const AdminModal: React.FC<AdminModalProps> = ({
   isOpen,
   onClose,
+  recipientName,
+  senderName,
+  onSaveNames,
   onMemoryAdded,
 }) => {
   // Login credentials state
@@ -27,6 +33,17 @@ export const AdminModal: React.FC<AdminModalProps> = ({
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loginError, setLoginError] = useState('');
+
+  // Name customization state inside admin
+  const [adminRecipient, setAdminRecipient] = useState(recipientName);
+  const [adminSender, setAdminSender] = useState(senderName);
+  const [nameSavedSuccess, setNameSavedSuccess] = useState(false);
+
+  // Sync names when props change
+  useEffect(() => {
+    setAdminRecipient(recipientName);
+    setAdminSender(senderName);
+  }, [recipientName, senderName]);
 
   // Upload memory state
   const [newTitle, setNewTitle] = useState('');
@@ -49,9 +66,6 @@ export const AdminModal: React.FC<AdminModalProps> = ({
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Valid Admin Credentials:
-    // Username: admin or madhuri
-    // Password: rakhi123
     const validUsernames = ['admin', 'madhuri', 'brijesh'];
     const validPasswords = ['rakhi123', 'admin123', 'madhuri123'];
 
@@ -65,6 +79,16 @@ export const AdminModal: React.FC<AdminModalProps> = ({
     } else {
       setLoginError('Invalid Username or Password! (Hint: admin / rakhi123)');
     }
+  };
+
+  const handleSaveNames = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!adminRecipient.trim() || !adminSender.trim()) return;
+
+    onSaveNames(adminRecipient.trim(), adminSender.trim());
+    soundManager.playBlessingSparkle();
+    setNameSavedSuccess(true);
+    setTimeout(() => setNameSavedSuccess(false), 3000);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,12 +145,12 @@ export const AdminModal: React.FC<AdminModalProps> = ({
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="w-full max-w-2xl bg-white dark:bg-[#18132B] rounded-3xl p-6 sm:p-8 border-2 border-[#D4AF37] shadow-2xl relative overflow-hidden text-left"
+          className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white dark:bg-[#18132B] rounded-3xl p-6 sm:p-8 border-2 border-[#D4AF37] shadow-2xl relative text-left"
         >
           {/* Close Button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-white hover:bg-slate-200 transition-colors"
+            className="absolute top-4 right-4 p-2 rounded-full bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-white hover:bg-slate-200 transition-colors z-10"
           >
             <X className="w-5 h-5" />
           </button>
@@ -142,7 +166,7 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                   Admin Access Portal
                 </h3>
                 <p className="text-xs text-[#2C221E]/70 dark:text-[#F4F1DE]/70 mt-1 font-light">
-                  Please enter admin credentials to upload custom memory photos.
+                  Please enter admin credentials to edit names & upload photos.
                 </p>
               </div>
 
@@ -215,10 +239,10 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                   </div>
                   <div>
                     <h3 className="text-2xl font-serif font-bold text-[#2C221E] dark:text-[#F4F1DE]">
-                      Admin Memory Upload
+                      Admin Control Panel
                     </h3>
                     <p className="text-xs text-[#2C221E]/70 dark:text-[#F4F1DE]/70">
-                      Upload family photos to feature in the Memories Gallery!
+                      Edit sibling names and upload family photos!
                     </p>
                   </div>
                 </div>
@@ -231,6 +255,62 @@ export const AdminModal: React.FC<AdminModalProps> = ({
                 </button>
               </div>
 
+              {/* Section 1: Edit Brother & Sister Names */}
+              <div className="mb-8 p-5 rounded-2xl bg-[#FAF7F2] dark:bg-white/5 border border-[#D4AF37]/40 shadow-sm">
+                <div className="flex items-center space-x-2 mb-3">
+                  <Heart className="w-4 h-4 text-[#9E2A2B] fill-current" />
+                  <h4 className="text-sm font-cinzel font-bold text-[#9E2A2B]">
+                    Edit Sibling Names (Brother & Sister)
+                  </h4>
+                </div>
+
+                {nameSavedSuccess && (
+                  <div className="mb-3 p-2.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs flex items-center space-x-1.5">
+                    <CheckCircle className="w-4 h-4 shrink-0" />
+                    <span>Names updated across the entire website successfully!</span>
+                  </div>
+                )}
+
+                <form onSubmit={handleSaveNames} className="space-y-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-[11px] font-cinzel font-semibold text-[#2C221E]/80 dark:text-white/80 mb-1">
+                        Brother Name (Recipient)
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={adminRecipient}
+                        onChange={(e) => setAdminRecipient(e.target.value)}
+                        className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-black/20 border border-slate-200 dark:border-white/10 text-xs text-[#2C221E] dark:text-white focus:outline-none focus:border-[#D4AF37]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[11px] font-cinzel font-semibold text-[#2C221E]/80 dark:text-white/80 mb-1">
+                        Sister Name (Sender)
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={adminSender}
+                        onChange={(e) => setAdminSender(e.target.value)}
+                        className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-black/20 border border-slate-200 dark:border-white/10 text-xs text-[#2C221E] dark:text-white focus:outline-none focus:border-[#D4AF37]"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="px-5 py-2 rounded-full bg-[#9E2A2B] text-white text-xs font-semibold shadow hover:bg-[#7D2122] transition-colors flex items-center space-x-1.5"
+                  >
+                    <Save className="w-3.5 h-3.5" />
+                    <span>Save & Update Website Names</span>
+                  </button>
+                </form>
+              </div>
+
+              {/* Section 2: Upload Custom Photo Memories */}
               {uploadSuccess && (
                 <div className="mb-4 p-3 rounded-2xl bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs flex items-center space-x-2">
                   <CheckCircle className="w-4 h-4 shrink-0" />
