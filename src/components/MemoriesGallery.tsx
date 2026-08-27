@@ -14,14 +14,12 @@ interface MemoriesGalleryProps {
   recipientName: string;
   senderName?: string;
   adminMemories?: AdminMemory[];
-  onOpenAdmin?: () => void;
 }
 
 export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({
   recipientName,
   senderName = 'Sister',
   adminMemories = [],
-  onOpenAdmin,
 }) => {
   const defaultMemories: Memory[] = [
     {
@@ -125,24 +123,14 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({
         </motion.div>
 
         {/* Action Buttons */}
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-6 flex justify-center">
           <button
             onClick={() => setIsAdding(true)}
             className="px-5 py-2.5 rounded-full bg-[#FAF7F2] border border-[#D4AF37]/50 text-xs font-medium text-[#9E2A2B] hover:bg-[#9E2A2B] hover:text-white transition-all duration-300 shadow-sm flex items-center space-x-1.5"
           >
             <Plus className="w-4 h-4" />
-            <span>Add Web Link Photo</span>
+            <span>Add Family Memory</span>
           </button>
-
-          {onOpenAdmin && (
-            <button
-              onClick={onOpenAdmin}
-              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#9E2A2B] via-[#E07A5F] to-[#D4AF37] text-white text-xs font-semibold shadow-md hover:scale-105 transition-transform flex items-center space-x-1.5"
-            >
-              <Sparkles className="w-4 h-4 text-[#D4AF37]" />
-              <span>Admin Photo Uploader</span>
-            </button>
-          )}
         </div>
 
         {/* Polaroid Masonry Grid */}

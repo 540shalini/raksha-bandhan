@@ -19,10 +19,11 @@ import { TraceThreadUnlock } from './components/TraceThreadUnlock';
 import { DayNightToggle } from './components/DayNightToggle';
 import { KnowMoreStoryModal } from './components/KnowMoreStoryModal';
 import { RakhiTreasureHunt } from './components/RakhiTreasureHunt';
+import { LandingWelcomeScreen } from './components/LandingWelcomeScreen';
 import { AdminModal } from './components/AdminModal';
 import type { AdminMemory } from './components/AdminModal';
 import { Sparkles, BookOpen, ChevronRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export function App() {
   const [recipientName, setRecipientName] = useState('Brijesh');
@@ -31,6 +32,7 @@ export function App() {
     `Dearest Brijesh, thank you for everything. Through every season of life, your love and presence have been my strongest anchor. Distance may separate our paths, but the sacred thread of Rakhi keeps our souls forever intertwined. Thank you Brijesh for everything. Lots of love from your sister Madhuri.`
   );
 
+  const [hasEnteredLanding, setHasEnteredLanding] = useState(false);
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [isKnowMoreOpen, setIsKnowMoreOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
@@ -59,6 +61,17 @@ export function App() {
   return (
     <div className="min-h-screen bg-[#FAF7F2] dark:bg-[#0F0C1B] text-[#2C221E] dark:text-[#F4F1DE] transition-colors duration-500 relative overflow-x-hidden selection:bg-[#E07A5F] selection:text-white">
       
+      {/* Landing Welcome Screen Gate */}
+      <AnimatePresence>
+        {!hasEnteredLanding && (
+          <LandingWelcomeScreen
+            recipientName={recipientName}
+            senderName={senderName}
+            onEnter={() => setHasEnteredLanding(true)}
+          />
+        )}
+      </AnimatePresence>
+
       {/* Custom Glowing Mauli Cursor & Sparkle Trail */}
       <MauliCursor isReducedMotion={isReducedMotion} />
 
@@ -70,7 +83,6 @@ export function App() {
         recipientName={recipientName}
         senderName={senderName}
         onOpenCustomizer={() => setIsCustomizerOpen(true)}
-        onOpenAdmin={() => setIsAdminOpen(true)}
       />
 
       {/* Main Content */}
@@ -148,12 +160,15 @@ export function App() {
           recipientName={recipientName}
           senderName={senderName}
           adminMemories={adminMemories}
-          onOpenAdmin={() => setIsAdminOpen(true)}
         />
       </main>
 
-      {/* Footer */}
-      <Footer recipientName={recipientName} senderName={senderName} />
+      {/* Footer with small unhighlighted Admin Login link */}
+      <Footer
+        recipientName={recipientName}
+        senderName={senderName}
+        onOpenAdmin={() => setIsAdminOpen(true)}
+      />
 
       {/* Customizer Modal for Personalization */}
       <CustomizerModal

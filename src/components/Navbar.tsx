@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, Heart, Shield } from 'lucide-react';
+import { Volume2, VolumeX, Heart } from 'lucide-react';
 import { soundManager } from '../utils/audio';
 
 interface NavbarProps {
   recipientName: string;
   senderName: string;
   onOpenCustomizer: () => void;
-  onOpenAdmin?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   recipientName,
   onOpenCustomizer,
-  onOpenAdmin,
 }) => {
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
 
@@ -43,20 +41,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           <a href="#memories" className="hover:text-[#E07A5F] transition-colors">Memories</a>
         </div>
 
-        {/* Right Actions: Customizer, Admin & Ambient Music */}
+        {/* Right Actions: Customizer & Ambient Music */}
         <div className="flex items-center space-x-2 sm:space-x-3">
-          {/* Admin Upload Trigger */}
-          {onOpenAdmin && (
-            <button
-              onClick={onOpenAdmin}
-              className="flex items-center space-x-1 px-3 py-1.5 rounded-full bg-[#9E2A2B]/10 border border-[#9E2A2B]/30 text-xs font-semibold text-[#9E2A2B] dark:text-[#E07A5F] hover:bg-[#9E2A2B] hover:text-white transition-all shadow-sm"
-              title="Admin Photo Uploader"
-            >
-              <Shield className="w-3.5 h-3.5" />
-              <span className="hidden lg:inline">Admin Portal</span>
-            </button>
-          )}
-
           {/* Customize Name Button */}
           <button
             onClick={onOpenCustomizer}

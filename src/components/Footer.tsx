@@ -1,14 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Heart } from 'lucide-react';
+import { Heart, Lock } from 'lucide-react';
 import { soundManager } from '../utils/audio';
 
 interface FooterProps {
   recipientName: string;
   senderName: string;
+  onOpenAdmin?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ recipientName, senderName }) => {
+export const Footer: React.FC<FooterProps> = ({ recipientName, senderName, onOpenAdmin }) => {
   const handleHeartClick = () => {
     soundManager.playBlessingSparkle();
   };
@@ -65,6 +66,20 @@ export const Footer: React.FC<FooterProps> = ({ recipientName, senderName }) => 
           <span className="hidden sm:inline">•</span>
           <span>Forever & Always</span>
         </div>
+
+        {/* Small, discreet un-highlighted Admin Login link at the very end */}
+        {onOpenAdmin && (
+          <div className="mt-10 pt-4 border-t border-slate-200/50">
+            <button
+              onClick={onOpenAdmin}
+              className="inline-flex items-center space-x-1 text-[11px] text-slate-400 hover:text-slate-600 transition-colors opacity-50 hover:opacity-100"
+              title="Admin Login Portal"
+            >
+              <Lock className="w-3 h-3" />
+              <span>Admin Login</span>
+            </button>
+          </div>
+        )}
       </div>
     </footer>
   );
