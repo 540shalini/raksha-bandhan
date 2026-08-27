@@ -24,7 +24,7 @@ import { motion } from 'framer-motion';
 
 export function App() {
   const [recipientName, setRecipientName] = useState('Brother');
-  const [senderName, setSenderName] = useState('Sister');
+  const [senderName, setSenderName] = useState('Elder Sister');
   const [customMessage, setCustomMessage] = useState(
     `Dearest Brother, through every season of life, your love and presence have been my strongest anchor. Distance may separate our paths, but the sacred thread of Rakhi keeps our souls forever intertwined. Thank you for being my protector, my confidant, and my greatest blessing.`
   );

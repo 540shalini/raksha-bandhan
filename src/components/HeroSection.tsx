@@ -49,7 +49,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         className="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-[#FAF7F2] border border-[#D4AF37]/40 shadow-sm text-xs font-cinzel font-semibold text-[#9E2A2B] tracking-widest uppercase mb-6"
       >
         <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
-        <span>Celebration of Sacred Thread</span>
+        <span>Celebration of Sacred Sibling Bond</span>
       </motion.div>
 
       {/* Main Title */}
@@ -68,8 +68,27 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         transition={{ duration: 0.8, delay: 0.4 }}
         className="mt-4 text-lg sm:text-xl text-[#2C221E]/80 max-w-2xl font-light"
       >
-        For <strong className="text-[#9E2A2B] font-semibold">{recipientName}</strong>, bound by love, protection, and eternal memories from <strong className="text-[#9E2A2B] font-semibold">{senderName}</strong>.
+        For <strong className="text-[#9E2A2B] font-semibold">{recipientName}</strong>, bound by love, protection, and eternal memories from your <strong className="text-[#9E2A2B] font-semibold">{senderName}</strong>.
       </motion.p>
+
+      {/* Heartfelt Emotional Message Card at the Start */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, delay: 0.5 }}
+        className="mt-8 max-w-2xl w-full p-6 sm:p-8 bg-gradient-to-br from-white/90 via-[#FAF7F2] to-[#FFFBEB] rounded-3xl border-2 border-[#D4AF37]/50 shadow-2xl relative text-center overflow-hidden"
+      >
+        <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-[#9E2A2B] to-[#D4AF37] text-white text-[11px] font-cinzel font-bold tracking-wider uppercase shadow-md flex items-center space-x-1">
+          <Heart className="w-3 h-3 fill-current text-white" />
+          <span>A Note From Your Elder Sister</span>
+        </div>
+
+        <p className="font-serif italic text-lg sm:text-xl text-[#2C221E] leading-relaxed mt-2 font-medium">
+          "Thank you for being the absolute best brother in the whole world. Your elder sister is so immensely proud to walk beside you, watch you grow, and share every chapter of life with you."
+        </p>
+
+        <div className="w-16 h-0.5 bg-gradient-to-r from-[#9E2A2B] via-[#D4AF37] to-[#E07A5F] mx-auto mt-4 rounded-full" />
+      </motion.div>
 
       {/* 3D Breathing Vector Rakhi Mandala Art */}
       <motion.div
@@ -81,7 +100,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           transition: 'transform 0.1s ease-out',
         }}
         onClick={handleRakhiClick}
-        className="mt-12 relative w-72 h-72 sm:w-96 sm:h-96 flex items-center justify-center cursor-pointer group"
+        className="mt-10 relative w-72 h-72 sm:w-96 sm:h-96 flex items-center justify-center cursor-pointer group"
       >
         {/* Outer Thread Ring Lines */}
         <div className="absolute inset-0 rounded-full border-2 border-dashed border-[#D4AF37]/50 animate-spin" style={{ animationDuration: '30s' }} />
