@@ -7,7 +7,6 @@ interface Memory {
   id: string;
   url: string;
   caption: string;
-  year: string;
 }
 
 interface MemoriesGalleryProps {
@@ -21,25 +20,21 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ recipientName,
       id: '1',
       url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80',
       caption: 'Childhood smiles & endless laughter',
-      year: '2012',
     },
     {
       id: '2',
       url: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=600&q=80',
       caption: 'Annual family festival gathering',
-      year: '2016',
     },
     {
       id: '3',
       url: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=600&q=80',
       caption: 'Shared adventures & summer trips',
-      year: '2020',
     },
     {
       id: '4',
       url: 'https://images.unsplash.com/photo-1629837901594-52c6f140fb08?auto=format&fit=crop&w=600&q=80',
       caption: 'Forever bound by love',
-      year: '2024',
     },
   ]);
 
@@ -47,7 +42,6 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ recipientName,
   const [isAdding, setIsAdding] = useState(false);
   const [newUrl, setNewUrl] = useState('');
   const [newCaption, setNewCaption] = useState('');
-  const [newYear, setNewYear] = useState(new Date().getFullYear().toString());
 
   const handleAddMemory = (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,7 +53,6 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ recipientName,
       id: Date.now().toString(),
       url: newUrl,
       caption: newCaption,
-      year: newYear,
     };
 
     setMemories([newMem, ...memories]);
@@ -128,9 +121,6 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ recipientName,
                   alt={mem.caption}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-black/60 text-white text-[10px] font-cinzel">
-                  {mem.year}
-                </span>
               </div>
 
               {/* Polaroid Caption */}
@@ -174,7 +164,7 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ recipientName,
 
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-cinzel text-[#9E2A2B] font-bold">
-                    Memory Year: {activeMemory.year}
+                    Special Memory
                   </span>
                   <Sparkles className="w-4 h-4 text-[#D4AF37]" />
                 </div>
@@ -234,19 +224,6 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ recipientName,
                       onChange={(e) => setNewCaption(e.target.value)}
                       placeholder="e.g. Summer festival celebration"
                       required
-                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#D4AF37]/50 text-sm focus:outline-none focus:ring-2 focus:ring-[#9E2A2B]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-cinzel font-semibold text-[#9E2A2B] mb-1">
-                      Year
-                    </label>
-                    <input
-                      type="text"
-                      value={newYear}
-                      onChange={(e) => setNewYear(e.target.value)}
-                      placeholder="2026"
                       className="w-full px-4 py-2.5 rounded-xl bg-white border border-[#D4AF37]/50 text-sm focus:outline-none focus:ring-2 focus:ring-[#9E2A2B]"
                     />
                   </div>

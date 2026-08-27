@@ -17,6 +17,9 @@ import { TimeCapsule } from './components/TimeCapsule';
 import { ReasonsFlipCards } from './components/ReasonsFlipCards';
 import { TraceThreadUnlock } from './components/TraceThreadUnlock';
 import { DayNightToggle } from './components/DayNightToggle';
+import { KnowMoreStoryModal } from './components/KnowMoreStoryModal';
+import { Sparkles, BookOpen, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export function App() {
   const [recipientName, setRecipientName] = useState('Brother');
@@ -26,6 +29,7 @@ export function App() {
   );
 
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
+  const [isKnowMoreOpen, setIsKnowMoreOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
@@ -68,6 +72,35 @@ export function App() {
           onOpenCustomizer={() => setIsCustomizerOpen(true)}
         />
 
+        {/* Animated "Click on this to Know More" Interactive Banner */}
+        <section className="py-12 px-4 sm:px-8 bg-gradient-to-r from-[#9E2A2B]/10 via-[#D4AF37]/15 to-[#E07A5F]/10 border-y border-[#D4AF37]/30 relative overflow-hidden text-center">
+          <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 relative z-10">
+            <div className="text-left sm:text-left">
+              <div className="inline-flex items-center space-x-2 text-[#9E2A2B] text-xs font-cinzel font-bold uppercase tracking-wider mb-1">
+                <Sparkles className="w-4 h-4 text-[#D4AF37] animate-spin" />
+                <span>Uncover Sacred Heritage</span>
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#2C221E] dark:text-[#F4F1DE]">
+                The Story Behind the Sacred Thread
+              </h3>
+              <p className="text-sm text-[#2C221E]/70 dark:text-[#F4F1DE]/70 mt-1 font-light max-w-xl">
+                Explore ancient legends, Lord Krishna & Draupadi's covenant, Queen Karnavati's vow, and the spiritual secrets of Raksha Bandhan.
+              </p>
+            </div>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsKnowMoreOpen(true)}
+              className="px-6 py-3.5 rounded-full bg-gradient-to-r from-[#9E2A2B] via-[#E07A5F] to-[#D4AF37] text-white font-medium text-sm shadow-xl hover:shadow-2xl transition-all flex items-center space-x-2 shrink-0 group border border-[#D4AF37]/50"
+            >
+              <BookOpen className="w-5 h-5 text-[#D4AF37] group-hover:rotate-12 transition-transform" />
+              <span>Click on this to Know More</span>
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </motion.button>
+          </div>
+        </section>
+
         {/* Mindful Reflection & Poem */}
         <MindfulReflection recipientName={recipientName} />
 
@@ -98,7 +131,7 @@ export function App() {
         <TraceThreadUnlock recipientName={recipientName} senderName={senderName} />
 
         {/* Memory Polaroid Gallery */}
-        <MemoriesGallery recipientName={recipientName} />
+        <MemoriesGallery recipientName={recipientName} senderName={senderName} />
       </main>
 
       {/* Footer */}
@@ -111,6 +144,13 @@ export function App() {
         recipientName={recipientName}
         senderName={senderName}
         onSave={handleSaveCustomization}
+      />
+
+      {/* Animated Story Lore "Know More" Modal */}
+      <KnowMoreStoryModal
+        isOpen={isKnowMoreOpen}
+        onClose={() => setIsKnowMoreOpen(false)}
+        recipientName={recipientName}
       />
 
       {/* Day/Night & Reduced Motion Accessibility Floating Controls */}
