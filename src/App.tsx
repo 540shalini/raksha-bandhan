@@ -19,6 +19,8 @@ import { TraceThreadUnlock } from './components/TraceThreadUnlock';
 import { DayNightToggle } from './components/DayNightToggle';
 import { KnowMoreStoryModal } from './components/KnowMoreStoryModal';
 import { RakhiTreasureHunt } from './components/RakhiTreasureHunt';
+import { AdminModal } from './components/AdminModal';
+import type { AdminMemory } from './components/AdminModal';
 import { Sparkles, BookOpen, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -31,6 +33,8 @@ export function App() {
 
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
   const [isKnowMoreOpen, setIsKnowMoreOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
+  const [adminMemories, setAdminMemories] = useState<AdminMemory[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
 
@@ -48,6 +52,10 @@ export function App() {
     setSenderName(sender);
   };
 
+  const handleMemoryAdded = (memory: AdminMemory) => {
+    setAdminMemories((prev) => [memory, ...prev]);
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF7F2] dark:bg-[#0F0C1B] text-[#2C221E] dark:text-[#F4F1DE] transition-colors duration-500 relative overflow-x-hidden selection:bg-[#E07A5F] selection:text-white">
       
@@ -62,6 +70,7 @@ export function App() {
         recipientName={recipientName}
         senderName={senderName}
         onOpenCustomizer={() => setIsCustomizerOpen(true)}
+        onOpenAdmin={() => setIsAdminOpen(true)}
       />
 
       {/* Main Content */}
@@ -135,7 +144,12 @@ export function App() {
         <TraceThreadUnlock recipientName={recipientName} senderName={senderName} />
 
         {/* Memory Polaroid Gallery */}
-        <MemoriesGallery recipientName={recipientName} senderName={senderName} />
+        <MemoriesGallery
+          recipientName={recipientName}
+          senderName={senderName}
+          adminMemories={adminMemories}
+          onOpenAdmin={() => setIsAdminOpen(true)}
+        />
       </main>
 
       {/* Footer */}
@@ -155,6 +169,13 @@ export function App() {
         isOpen={isKnowMoreOpen}
         onClose={() => setIsKnowMoreOpen(false)}
         recipientName={recipientName}
+      />
+
+      {/* Protected Admin Photo Uploader Portal */}
+      <AdminModal
+        isOpen={isAdminOpen}
+        onClose={() => setIsAdminOpen(false)}
+        onMemoryAdded={handleMemoryAdded}
       />
 
       {/* Day/Night & Reduced Motion Accessibility Floating Controls */}

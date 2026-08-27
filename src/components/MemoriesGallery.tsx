@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, X, Image as ImageIcon, Heart, Sparkles } from 'lucide-react';
 import { soundManager } from '../utils/audio';
+import type { AdminMemory } from './AdminModal';
 
 interface Memory {
   id: string;
@@ -12,10 +13,17 @@ interface Memory {
 interface MemoriesGalleryProps {
   recipientName: string;
   senderName?: string;
+  adminMemories?: AdminMemory[];
+  onOpenAdmin?: () => void;
 }
 
-export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ recipientName, senderName = 'Sister' }) => {
-  const [memories, setMemories] = useState<Memory[]>([
+export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({
+  recipientName,
+  senderName = 'Sister',
+  adminMemories = [],
+  onOpenAdmin,
+}) => {
+  const defaultMemories: Memory[] = [
     {
       id: '1',
       url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=600&q=80',
@@ -36,7 +44,39 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ recipientName,
       url: 'https://images.unsplash.com/photo-1629837901594-52c6f140fb08?auto=format&fit=crop&w=600&q=80',
       caption: 'Forever bound by love',
     },
-  ]);
+  ];
+
+  const [memories, setMemories] = useState<Memory[]>(defaultMemories);
+
+  // Sync admin uploaded memories
+  useEffect(() => {
+    const saved = localStorage.getItem('rakhi_admin_memories');
+    let localAdminMemories: Memory[] = [];
+    if (saved) {
+      try {
+        const parsed: AdminMemory[] = JSON.parse(saved);
+        localAdminMemories = parsed.map((m) => ({
+          id: m.id,
+          url: m.imageUrl,
+          caption: `${m.title}: ${m.caption}`,
+        }));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    const propAdminMemories = adminMemories.map((m) => ({
+      id: m.id,
+      url: m.imageUrl,
+      caption: `${m.title}: ${m.caption}`,
+    }));
+
+    // Combine local & prop admin memories with defaults
+    const combined = [...localAdminMemories, ...propAdminMemories, ...defaultMemories];
+    // Filter duplicates by id
+    const unique = combined.filter((v, i, a) => a.findIndex((t) => t.id === v.id) === i);
+    setMemories(unique);
+  }, [adminMemories]);
 
   const [activeMemory, setActiveMemory] = useState<Memory | null>(null);
   const [isAdding, setIsAdding] = useState(false);
@@ -84,15 +124,25 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ recipientName,
           <div className="w-16 h-0.5 bg-gradient-to-r from-[#9E2A2B] via-[#D4AF37] to-[#E07A5F] my-4 mx-auto rounded-full" />
         </motion.div>
 
-        {/* Add Memory Button */}
-        <div className="mt-6 flex justify-center">
+        {/* Action Buttons */}
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
           <button
             onClick={() => setIsAdding(true)}
             className="px-5 py-2.5 rounded-full bg-[#FAF7F2] border border-[#D4AF37]/50 text-xs font-medium text-[#9E2A2B] hover:bg-[#9E2A2B] hover:text-white transition-all duration-300 shadow-sm flex items-center space-x-1.5"
           >
             <Plus className="w-4 h-4" />
-            <span>Add Family Memory</span>
+            <span>Add Web Link Photo</span>
           </button>
+
+          {onOpenAdmin && (
+            <button
+              onClick={onOpenAdmin}
+              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-[#9E2A2B] via-[#E07A5F] to-[#D4AF37] text-white text-xs font-semibold shadow-md hover:scale-105 transition-transform flex items-center space-x-1.5"
+            >
+              <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+              <span>Admin Photo Uploader</span>
+            </button>
+          )}
         </div>
 
         {/* Polaroid Masonry Grid */}
@@ -104,7 +154,7 @@ export const MemoriesGallery: React.FC<MemoriesGalleryProps> = ({ recipientName,
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: idx * 0.15 }}
-              whileHover={{ scale: 1.04, rotate: (idx % 2 === 0 ? 2 : -2), transition: { duration: 0.2 } }}
+              whileHover={{ scale: 1.04, rotate: idx % 2 === 0 ? 2 : -2, transition: { duration: 0.2 } }}
               onClick={() => {
                 setActiveMemory(mem);
                 soundManager.playBlessingSparkle();
